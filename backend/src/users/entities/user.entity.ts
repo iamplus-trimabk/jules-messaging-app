@@ -11,7 +11,7 @@ export class User {
   @Column({ nullable: true })
   otp: string;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
   otpExpiresAt: Date;
 
   @Column({ nullable: true })
