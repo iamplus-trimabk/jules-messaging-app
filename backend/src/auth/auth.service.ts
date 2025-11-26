@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
+import * as crypto from 'crypto';
 import { UserDto } from '../users/dto/user.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
 
@@ -18,7 +19,7 @@ export class AuthService {
       user = await this.usersService.create(mobileNumber);
     }
 
-    const otp = Math.floor(1000 + Math.random() * 9000).toString();
+    const otp = crypto.randomInt(1000, 10000).toString();
     console.log(`OTP for ${mobileNumber} is: ${otp}`);
 
     const salt = await bcrypt.genSalt();

@@ -14,5 +14,6 @@ import { ConversationAdminGuard } from './guards/conversation-admin.guard';
   ],
   controllers: [ConversationsController],
   providers: [ConversationsService, ConversationAdminGuard],
+  exports: [ConversationsService],
 })
 export class ConversationsModule {}

@@ -41,4 +41,8 @@ export class UsersService {
     const updatedUser = await this.userRepository.save(user);
     return new UserDto(updatedUser);
   }
+
+  async updateSocketId(userId: string, socketId: string | null): Promise<void> {
+    await this.userRepository.update(userId, { socketId });
+  }
 }
