@@ -3,6 +3,8 @@ import { User } from '../../users/entities/user.entity';
 import { Conversation } from '../../conversations/entities/conversation.entity';
 import { MessageStatus } from '../enums/message-status.enum';
 
+export { MessageStatus };
+
 @Entity('messages')
 export class Message {
   @PrimaryGeneratedColumn('uuid')

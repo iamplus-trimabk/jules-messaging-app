@@ -3,6 +3,8 @@ import { Message } from '../../messages/entities/message.entity';
 import { User } from '../../users/entities/user.entity';
 import { TaskStatus } from '../enums/task-status.enum';
 
+export { TaskStatus };
+
 @Entity('tasks')
 export class Task {
   @PrimaryGeneratedColumn('uuid')
@@ -36,6 +38,6 @@ export class Task {
   })
   status: TaskStatus;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ type: 'datetime', nullable: true })
   dueDate: Date;
 }

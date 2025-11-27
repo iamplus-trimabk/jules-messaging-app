@@ -1,0 +1,10 @@
+/* generated using openapi-typescript-codegen -- do not edit */
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+export type UpdateProfileDto = {
+    firstName?: string;
+    lastName?: string;
+    avatarUrl?: string;
+    profileData?: Record<string, any>;
+};

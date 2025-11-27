@@ -1,0 +1,16 @@
+{
+  "name": "simflo-sdk",
+  "version": "1.0.0",
+  "description": "Client-side SDK for the Simflo API",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate:sdk": "openapi --input ./swagger.json --output ./src --client axios"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "openapi-typescript-codegen": "^0.29.0"
+  }
+}

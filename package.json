@@ -1,0 +1,19 @@
+{
+  "name": "simflo",
+  "version": "1.0.0",
+  "description": "A monorepo for the Simflo project",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "sdk",
+    "common",
+    "app",
+    "web"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
