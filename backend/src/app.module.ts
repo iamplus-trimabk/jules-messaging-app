@@ -12,6 +12,8 @@ import { Conversation } from './conversations/entities/conversation.entity';
 import { ConversationParticipant } from './conversations/entities/conversation-participant.entity';
 import { MessagesModule } from './messages/messages.module';
 import { Message } from './messages/entities/message.entity';
+import { TasksModule } from './tasks/tasks.module';
+import { Task } from './tasks/entities/task.entity';
 
 @Module({
   imports: [
@@ -28,7 +30,7 @@ import { Message } from './messages/entities/message.entity';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
-        entities: [User, Conversation, ConversationParticipant, Message],
+        entities: [User, Conversation, ConversationParticipant, Message, Task],
         synchronize: configService.get<boolean>('DB_SYNCHRONIZE'),
       }),
     }),
@@ -47,6 +49,7 @@ import { Message } from './messages/entities/message.entity';
     UsersModule,
     ConversationsModule,
     MessagesModule,
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [AppService],

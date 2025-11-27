@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { Conversation } from '../../conversations/entities/conversation.entity';
 import { MessageStatus } from '../enums/message-status.enum';
@@ -23,7 +23,23 @@ export class Message {
   conversationId: string;
 
   @Column({ type: 'simple-json' })
-  content: { text: string }; // Enforcing the basic schema
+  content: object; // Relaxed to a generic object for different message types
+
+  @Column({ nullable: true })
+  app_type: string; // e.g., 'TASKS'
+
+  @Column({ nullable: true })
+  message_type: string; // e.g., 'TASK_CREATED', 'COMMENT'
+
+  @ManyToOne(() => Message, (message) => message.children, { nullable: true })
+  @JoinColumn({ name: 'parentMessageId' })
+  parentMessage: Message;
+
+  @Column({ nullable: true })
+  parentMessageId: string;
+
+  @OneToMany(() => Message, (message) => message.parentMessage)
+  children: Message[];
 
   @Column({
     type: 'simple-enum',
@@ -34,4 +50,5 @@ export class Message {
 
   @CreateDateColumn()
   createdAt: Date;
+
 }
