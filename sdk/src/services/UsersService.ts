@@ -3,15 +3,16 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { UpdateProfileDto } from '../models/UpdateProfileDto';
+import type { UserDto } from '../models/UserDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 export class UsersService {
     /**
-     * @returns any
+     * @returns UserDto
      * @throws ApiError
      */
-    public static usersControllerGetProfile(): CancelablePromise<any> {
+    public static usersControllerGetProfile(): CancelablePromise<UserDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/users/me',
@@ -19,12 +20,12 @@ export class UsersService {
     }
     /**
      * @param requestBody
-     * @returns any
+     * @returns UserDto
      * @throws ApiError
      */
     public static usersControllerUpdateProfile(
         requestBody: UpdateProfileDto,
-    ): CancelablePromise<any> {
+    ): CancelablePromise<UserDto> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/users/me',

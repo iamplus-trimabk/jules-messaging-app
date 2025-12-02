@@ -18,12 +18,12 @@ export class MessagesService {
     private readonly participantRepository: Repository<ConversationParticipant>,
   ) {}
 
-  async create(createMessageDto: CreateMessageDto, sender: User): Promise<MessageDto> {
+  async create(createMessageDto: CreateMessageDto, sender: any): Promise<MessageDto> {
     const { conversationId, content } = createMessageDto;
 
     // Verify that the sender is a participant in the conversation
     const participant = await this.participantRepository.findOne({
-      where: { conversationId, userId: sender.id },
+      where: { conversationId, userId: sender.userId },
     });
 
     if (!participant) {
@@ -31,7 +31,7 @@ export class MessagesService {
     }
 
     const message = this.messageRepository.create({
-      senderId: sender.id,
+      senderId: sender.userId,
       conversationId,
       content,
     });

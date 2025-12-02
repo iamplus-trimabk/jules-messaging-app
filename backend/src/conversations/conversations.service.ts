@@ -19,7 +19,7 @@ export class ConversationsService {
     private readonly participantRepository: Repository<ConversationParticipant>,
   ) {}
 
-  async create(createConversationDto: CreateConversationDto, creator: User): Promise<ConversationDto> {
+  async create(createConversationDto: CreateConversationDto, creator: any): Promise<ConversationDto> {
     const conversation = this.conversationRepository.create({
       title: createConversationDto.title,
       type: createConversationDto.type,
@@ -40,21 +40,21 @@ export class ConversationsService {
     // Ensure the creator is always an admin
     const creatorParticipant = this.participantRepository.create({
         conversationId: savedConversation.id,
-        userId: creator.id,
+        userId: creator.userId,
         role: ParticipantRole.ADMIN,
     });
 
     // Avoid adding the creator twice if they are already in the list
-    if (!participants.find(p => p.userId === creator.id)) {
+    if (!participants.find(p => p.userId === creator.userId)) {
         participants.push(creatorParticipant);
     } else {
-        const existing = participants.find(p => p.userId === creator.id);
+        const existing = participants.find(p => p.userId === creator.userId);
         existing.role = ParticipantRole.ADMIN;
     }
 
     await this.participantRepository.save(participants);
 
-    const fullConversation = await this.findById(savedConversation.id, creator.id);
+    const fullConversation = await this.findById(savedConversation.id, creator.userId);
     return plainToClass(ConversationDto, fullConversation);
   }
 
@@ -86,7 +86,7 @@ export class ConversationsService {
     return plainToClass(ConversationDto, conversation);
   }
 
-  async addParticipants(conversationId: string, addParticipantsDto: AddParticipantsDto, actor: User): Promise<ConversationDto> {
+  async addParticipants(conversationId: string, addParticipantsDto: AddParticipantsDto, actor: any): Promise<ConversationDto> {
     const newParticipants = addParticipantsDto.participants.map(p =>
       this.participantRepository.create({
         conversationId: conversationId,
@@ -97,6 +97,6 @@ export class ConversationsService {
 
     await this.participantRepository.save(newParticipants);
 
-    return this.findById(conversationId, actor.id); // Return the updated conversation
+    return this.findById(conversationId, actor.userId); // Return the updated conversation
   }
 }

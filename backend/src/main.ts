@@ -2,12 +2,15 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe, ClassSerializerInterceptor } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import * as fs from 'fs';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+
+  const configService = app.get(ConfigService);
+  const port = configService.get<number>('PORT') || 3000;
 
   const config = new DocumentBuilder()
     .setTitle('Simflo API')
@@ -17,11 +20,8 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
 
-  // Log the Swagger JSON to the console
-  console.log(JSON.stringify(document));
-
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  await app.listen(port);
 }
 bootstrap();

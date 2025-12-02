@@ -23,4 +23,18 @@ class MemoryStorage implements Storage {
   }
 }
 
-export const storageService = new MemoryStorage();
+class LocalStorage implements Storage {
+  getItem(key: string): string | null {
+    return localStorage.getItem(key);
+  }
+
+  setItem(key: string, value: string): void {
+    localStorage.setItem(key, value);
+  }
+
+  removeItem(key: string): void {
+    localStorage.removeItem(key);
+  }
+}
+
+export const storageService = typeof window !== 'undefined' ? new LocalStorage() : new MemoryStorage();

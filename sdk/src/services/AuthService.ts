@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AuthResponseDto } from '../models/AuthResponseDto';
 import type { RequestOtpDto } from '../models/RequestOtpDto';
 import type { VerifyOtpDto } from '../models/VerifyOtpDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -25,12 +26,12 @@ export class AuthService {
     }
     /**
      * @param requestBody
-     * @returns any
+     * @returns AuthResponseDto
      * @throws ApiError
      */
     public static authControllerVerifyOtp(
         requestBody: VerifyOtpDto,
-    ): CancelablePromise<any> {
+    ): CancelablePromise<AuthResponseDto> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/auth/verify-otp',

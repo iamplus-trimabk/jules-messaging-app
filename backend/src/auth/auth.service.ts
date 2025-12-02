@@ -20,7 +20,6 @@ export class AuthService {
     }
 
     const otp = crypto.randomInt(1000, 10000).toString();
-    console.log(`OTP for ${mobileNumber} is: ${otp}`);
 
     const salt = await bcrypt.genSalt();
     const hashedOtp = await bcrypt.hash(otp, salt);
@@ -28,10 +27,6 @@ export class AuthService {
 
     await this.usersService.setOtp(user.id, hashedOtp, otpExpiresAt);
 
-    // For testing purposes, return the OTP in non-production environments
-    if (process.env.NODE_ENV !== 'production') {
-      return { otp };
-    }
     return {};
   }
 

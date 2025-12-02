@@ -5,13 +5,16 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ConversationDto } from './dto/conversation.dto';
 import { AddParticipantsDto } from './dto/add-participants.dto';
 import { ConversationAdminGuard } from './guards/conversation-admin.guard';
+import { ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('conversations')
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class ConversationsController {
   constructor(private readonly conversationsService: ConversationsService) {}
 
   @Post()
+  @ApiResponse({ status: 201, type: ConversationDto })
   create(
     @Body() createConversationDto: CreateConversationDto,
     @Request() req,
@@ -21,17 +24,20 @@ export class ConversationsController {
   }
 
   @Get()
+  @ApiResponse({ status: 200, type: [ConversationDto] })
   findAll(@Request() req): Promise<ConversationDto[]> {
     return this.conversationsService.findByUserId(req.user.userId);
   }
 
   @Get(':id')
+  @ApiResponse({ status: 200, type: ConversationDto })
   findOne(@Param('id') id: string, @Request() req): Promise<ConversationDto> {
     return this.conversationsService.findById(id, req.user.userId);
   }
 
   @Post(':id/participants')
   @UseGuards(ConversationAdminGuard)
+  @ApiResponse({ status: 201, type: ConversationDto })
   addParticipants(
     @Param('id') id: string,
     @Body() addParticipantsDto: AddParticipantsDto,

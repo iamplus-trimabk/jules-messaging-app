@@ -8,10 +8,17 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { AddParticipantsDto } from './models/AddParticipantsDto';
+export type { AuthResponseDto } from './models/AuthResponseDto';
+export { ConversationDto } from './models/ConversationDto';
+export { ConversationParticipantDto } from './models/ConversationParticipantDto';
 export { CreateConversationDto } from './models/CreateConversationDto';
+export type { MessageContentDto } from './models/MessageContentDto';
+export { MessageDto } from './models/MessageDto';
 export { ParticipantDto } from './models/ParticipantDto';
 export type { RequestOtpDto } from './models/RequestOtpDto';
+export { TaskDto } from './models/TaskDto';
 export type { UpdateProfileDto } from './models/UpdateProfileDto';
+export type { UserDto } from './models/UserDto';
 export type { VerifyOtpDto } from './models/VerifyOtpDto';
 
 export { AppService } from './services/AppService';
