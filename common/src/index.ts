@@ -3,3 +3,5 @@
 
 export { useAuth } from './hooks/useAuth';
 export { useAuthStore } from './stores/auth.store';
+export { useConversations } from './hooks/useConversations';
+export { useConversationStore } from './stores/conversation.store';

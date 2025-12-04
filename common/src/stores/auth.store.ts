@@ -8,6 +8,7 @@ import {
   UpdateProfileDto,
   User,
 } from '@simflo/sdk';
+import { socketService } from '../socket.service';
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -34,6 +35,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     BaseService.setToken(token);
     const user = await UsersService.getProfile();
     set({ isAuthenticated: true, user, token });
+    socketService.connect();
   },
 
   updateProfile: async (profileData: UpdateProfileDto) => {
@@ -43,6 +45,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   logout: () => {
     BaseService.clearToken();
+    socketService.disconnect();
     set({ isAuthenticated: false, user: null, token: null });
   },
 }));
@@ -52,5 +55,6 @@ const token = BaseService.getToken();
 if (token) {
   UsersService.getProfile().then(user => {
     useAuthStore.setState({ isAuthenticated: true, user, token });
+    socketService.connect();
   });
 }
