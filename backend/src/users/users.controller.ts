@@ -1,15 +1,37 @@
-import { Controller, Get, Patch, Body, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Patch,
+  Body,
+  UseGuards,
+  Request,
+  Query,
+  ValidationPipe,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UserDto } from './dto/user.dto';
-import { ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiResponse, ApiBearerAuth, ApiTags, ApiQuery } from '@nestjs/swagger';
+import { UserSearchQueryDto } from './dto/user-search-query.dto';
+import { PaginatedUserResultDto } from './dto/paginated-user-result.dto';
 
+@ApiTags('users')
 @Controller('users')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
+  @Get('search')
+  @ApiResponse({ status: 200, type: PaginatedUserResultDto })
+  @ApiQuery({ type: UserSearchQueryDto })
+  search(
+    @Query(new ValidationPipe({ transform: true }))
+    queryDto: UserSearchQueryDto,
+  ): Promise<PaginatedUserResultDto> {
+    return this.usersService.search(queryDto);
+  }
 
   @Get('me')
   @ApiResponse({ status: 200, type: UserDto })

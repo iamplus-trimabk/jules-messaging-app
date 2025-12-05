@@ -71,7 +71,7 @@ This file tracks the development tasks for the Simflo project. Each task should 
 ---
 ### **Implement User Search**
 *   **ID:** `BE-005`
-*   **Status:** `To Do`
+*   **Status:** `In Progress`
 *   **Dependencies:** `none`
 *   **Description:**
     *   Create an API endpoint to allow searching for registered users by their name or phone number. This is a prerequisite for adding users to conversations.
