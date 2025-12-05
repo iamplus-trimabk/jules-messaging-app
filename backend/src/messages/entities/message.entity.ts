@@ -24,8 +24,11 @@ export class Message {
   @Column()
   conversationId: string;
 
-  @Column({ type: 'simple-json' })
-  content: object; // Relaxed to a generic object for different message types
+  @Column({ type: 'text' })
+  content: string;
+
+  @Column({ type: 'simple-json', nullable: true })
+  files: object[];
 
   @Column({ nullable: true })
   app_type: string; // e.g., 'TASKS'
