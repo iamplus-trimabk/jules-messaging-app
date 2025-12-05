@@ -31,7 +31,7 @@ import { Task } from './tasks/entities/task.entity';
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
         entities: [User, Conversation, ConversationParticipant, Message, Task],
-        synchronize: configService.get<boolean>('DB_SYNCHRONIZE'),
+        synchronize: false,
       }),
     }),
     JwtModule.registerAsync({

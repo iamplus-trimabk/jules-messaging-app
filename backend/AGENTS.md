@@ -9,6 +9,18 @@ This document provides guidance for AI agents working on the Simflo backend.
 *   **Database:** PostgreSQL (production), SQLite (local development)
 *   **Real-time Communication:** Socket.io
 
+## Local Environment Setup
+
+To set up a local development environment, follow these steps:
+
+1.  **Copy the Environment File:** In the `backend` directory, make a copy of the `.env.example` file and name it `.env`.
+2.  **Configure Variables:** Open the new `.env` file and fill in the required values. For a standard local setup, you will need:
+    *   `DB_TYPE=sqlite`
+    *   `DB_DATABASE=db.sqlite`
+    *   `JWT_SECRET` (can be any secure random string)
+
+This will configure the backend to use a local SQLite database, which is ideal for development and testing.
+
 ## Experienced Senior Coder Persona
 
 As a senior coder, my focus is on writing clean, efficient, and well-tested code. I will provide clear guidelines for implementation, testing, and error handling to ensure a high-quality backend and client SDK.

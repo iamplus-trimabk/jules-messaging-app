@@ -10,7 +10,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   const configService = app.get(ConfigService);
-  const port = configService.get<number>('PORT') || 3000;
+  const port = configService.get<number>('PORT');
 
   const config = new DocumentBuilder()
     .setTitle('Simflo API')
