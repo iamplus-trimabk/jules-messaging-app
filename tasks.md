@@ -41,7 +41,7 @@ This file tracks the development tasks for the Simflo project. Each task should 
 ---
 ### **Setup Database Migrations**
 *   **ID:** `BE-003`
-*   **Status:** `To Do`
+*   **Status:** `Done`
 *   **Dependencies:** `none`
 *   **Description:**
     *   Configure TypeORM migrations to manage database schema changes systematically. This is crucial for maintaining a stable database structure as the application evolves.
@@ -56,7 +56,7 @@ This file tracks the development tasks for the Simflo project. Each task should 
 ---
 ### **Implement Environment Configuration**
 *   **ID:** `BE-004`
-*   **Status:** `To Do`
+*   **Status:** `Done`
 *   **Dependencies:** `none`
 *   **Description:**
     *   Replace hardcoded configuration values (like database credentials, JWT secrets) with a robust environment variable system using NestJS's `ConfigModule`.
@@ -71,7 +71,7 @@ This file tracks the development tasks for the Simflo project. Each task should 
 ---
 ### **Implement User Search**
 *   **ID:** `BE-005`
-*   **Status:** `To Do`
+*   **Status:** `In Progress`
 *   **Dependencies:** `none`
 *   **Description:**
     *   Create an API endpoint to allow searching for registered users by their name or phone number. This is a prerequisite for adding users to conversations.
