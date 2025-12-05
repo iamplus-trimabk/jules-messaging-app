@@ -53,4 +53,9 @@ export class Message {
   @CreateDateColumn()
   createdAt: Date;
 
+  @Column({ type: 'timestamp', nullable: true })
+  deliveredAt: Date;
+
+  @Column({ type: 'timestamp', nullable: true })
+  readAt: Date;
 }

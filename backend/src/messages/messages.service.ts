@@ -89,7 +89,20 @@ export class MessagesService {
       throw new ForbiddenException('You are not a member of this conversation.');
     }
 
-    await this.messageRepository.update(messageId, { status });
+    const updatePayload: { status: MessageStatus; deliveredAt?: Date; readAt?: Date } = { status };
+
+    if (status === MessageStatus.DELIVERED && !message.deliveredAt) {
+      updatePayload.deliveredAt = new Date();
+    }
+
+    if (status === MessageStatus.READ && !message.readAt) {
+      updatePayload.readAt = new Date();
+      if (!message.deliveredAt) {
+        updatePayload.deliveredAt = new Date();
+      }
+    }
+
+    await this.messageRepository.update(messageId, updatePayload);
     return this.messageRepository.findOne({ where: { id: messageId } });
   }
 }

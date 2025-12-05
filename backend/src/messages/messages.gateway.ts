@@ -132,17 +132,23 @@ export class MessagesGateway implements OnGatewayInit, OnGatewayConnection, OnGa
     return { status: 'ok', data: message };
   }
 
-  @SubscribeMessage('markAsRead')
+  @SubscribeMessage('message:mark_as_delivered')
+  async handleMarkAsDelivered(
+    @MessageBody() { messageId }: { messageId: string },
+    @ConnectedSocket() client: Socket,
+  ): Promise<void> {
+    const user = client.handshake['user'];
+    const updatedMessage = await this.messagesService.updateStatus(messageId, MessageStatus.DELIVERED, user.userId);
+    this.server.to(updatedMessage.conversationId).emit('message:status_updated', updatedMessage);
+  }
+
+  @SubscribeMessage('message:mark_as_read')
   async handleMarkAsRead(
-      @MessageBody() { messageId }: { messageId: string },
-      @ConnectedSocket() client: Socket
+    @MessageBody() { messageId }: { messageId: string },
+    @ConnectedSocket() client: Socket,
   ): Promise<void> {
     const user = client.handshake['user'];
     const updatedMessage = await this.messagesService.updateStatus(messageId, MessageStatus.READ, user.userId);
-
-    this.server.to(updatedMessage.conversation.id).emit('messageStatusUpdate', {
-        messageId: updatedMessage.id,
-        status: updatedMessage.status
-    });
+    this.server.to(updatedMessage.conversationId).emit('message:status_updated', updatedMessage);
   }
 }
