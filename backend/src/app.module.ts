@@ -14,6 +14,7 @@ import { MessagesModule } from './messages/messages.module';
 import { Message } from './messages/entities/message.entity';
 import { TasksModule } from './tasks/tasks.module';
 import { Task } from './tasks/entities/task.entity';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { Task } from './tasks/entities/task.entity';
     ConversationsModule,
     MessagesModule,
     TasksModule,
+    FilesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

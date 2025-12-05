@@ -1,19 +1,39 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsString,
   IsNotEmpty,
-  IsUUID,
-  IsObject,
-  ValidateNested,
   IsOptional,
+  IsUUID,
+  IsArray,
+  ValidateNested,
+  IsNumber,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ApiProperty } from '@nestjs/swagger';
 
-export class MessageContentDto {
+class FileMetadataDto {
   @ApiProperty()
   @IsString()
-  @IsNotEmpty()
-  text: string;
+  hash: string;
+
+  @ApiProperty()
+  @IsString()
+  originalName: string;
+
+  @ApiProperty()
+  @IsString()
+  mimeType: string;
+
+  @ApiProperty()
+  @IsString()
+  extension: string;
+
+  @ApiProperty()
+  @IsString()
+  category: string;
+
+  @ApiProperty()
+  @IsNumber()
+  size: number;
 }
 
 export class CreateMessageDto {
@@ -21,30 +41,20 @@ export class CreateMessageDto {
   @IsUUID()
   conversationId: string;
 
-  @ApiProperty({ required: false, type: () => MessageContentDto })
-  @IsOptional()
-  @IsObject()
-  @ValidateNested()
-  @Type(() => MessageContentDto)
-  content?: MessageContentDto;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
+  @ApiProperty()
   @IsString()
-  app_type?: string;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  message_type?: string;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsObject()
-  payload?: any;
+  @IsNotEmpty()
+  content: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
   @IsUUID()
   parentMessageId?: string;
+
+  @ApiProperty({ type: [FileMetadataDto], required: false })
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => FileMetadataDto)
+  files?: FileMetadataDto[];
 }
