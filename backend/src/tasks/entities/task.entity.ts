@@ -1,35 +1,25 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
-import { Message } from '../../messages/entities/message.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { TaskStatus } from '../enums/task-status.enum';
-
-export { TaskStatus };
 
 @Entity('tasks')
 export class Task {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(() => Message, { onDelete: 'CASCADE' }) // If the message is deleted, the task is deleted
-  @JoinColumn({ name: 'messageId' })
-  message: Message;
-
   @Column()
-  messageId: string;
+  title: string;
 
-  @ManyToOne(() => User, { nullable: false, eager: true })
-  @JoinColumn({ name: 'createdById' })
-  createdBy: User;
-
-  @Column()
-  createdById: string;
-
-  @ManyToOne(() => User, { nullable: true, eager: true }) // Eagerly load the assignee
-  @JoinColumn({ name: 'assigneeId' })
-  assignee: User;
-
-  @Column({ nullable: true })
-  assigneeId: string;
+  @Column({ type: 'text', nullable: true })
+  description: string;
 
   @Column({
     type: 'simple-enum',
@@ -40,4 +30,17 @@ export class Task {
 
   @Column({ type: 'datetime', nullable: true })
   dueDate: Date;
+
+  @ManyToOne(() => User, { eager: true })
+  @JoinColumn({ name: 'assigneeId' })
+  assignee: User;
+
+  @Column({ nullable: true })
+  assigneeId: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

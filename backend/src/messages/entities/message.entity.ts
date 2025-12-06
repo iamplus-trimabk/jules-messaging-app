@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 import { User } from '../../users/entities/user.entity';
 import { Conversation } from '../../conversations/entities/conversation.entity';
 import { MessageStatus } from '../enums/message-status.enum';
+import { Task } from '../../tasks/entities/task.entity';
 
 export { MessageStatus };
 
@@ -42,6 +43,13 @@ export class Message {
 
   @OneToMany(() => Message, (message) => message.parentMessage)
   children: Message[];
+
+  @ManyToOne(() => Task, { nullable: true })
+  @JoinColumn({ name: 'taskId' })
+  task: Task;
+
+  @Column({ nullable: true })
+  taskId: string;
 
   @Column({
     type: 'simple-enum',

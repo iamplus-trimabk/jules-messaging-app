@@ -104,18 +104,19 @@ This file tracks the development tasks for the Simflo project. Each task should 
 ---
 ### **Task Management - Data Models**
 *   **ID:** `TASK-001`
-*   **Status:** `To Do`
+*   **Status:** `Done`
 *   **Dependencies:** `none`
 *   **Description:**
-    *   Define the backend data models for the task management feature. In Simflo's architecture, a "Project" is a `Conversation`, and a "Task" is a special type of `Message` linked to a new `Task` entity.
+    *   Define the backend data models for the task management feature. This will follow the hybrid architecture where a `Task` entity manages the state and `Message` entities act as an event log.
 *   **Acceptance Criteria:**
-    *   - [ ] A new `Task` entity is created with fields: `title`, `description`, `status` (`'todo' | 'in-progress' | 'done'`), `dueDate`.
-    *   - [ ] A relationship is established between the `Task` entity and the `User` entity for assignees.
-    *   - [ ] The `Message` entity is modified to have an optional one-to-one relationship with the `Task` entity.
+    *   - [ ] A new `Task` entity is created. It should include fields for `title`, `description`, `status` (as a `'todo' | 'in-progress' | 'done'` enum), `dueDate`, and `assigneeId`.
+    *   - [ ] A `ManyToOne` relationship is established from the `Task` entity to the `User` entity for the assignee.
+    *   - [ ] The `Message` entity is modified to have an optional `taskId` foreign key, establishing a `ManyToOne` relationship (a Task can have many message events).
 *   **Agent's Role & Guidelines:**
-    *   - This task is only for creating the TypeORM entities and relationships.
-    *   - Do not create services or controllers yet.
-    *   - If `BE-003` is complete, generate a migration for the new entities.
+    *   - This task is only for creating/modifying the TypeORM entities and relationships.
+    *   - Refer to the `docs/architecture/application-messaging.md` document for the architectural pattern.
+    *   - Do not create services or controllers in this task.
+    - [ ] After entity changes, generate a single, consolidated migration script.
 
 ---
 ### **Task Management - Create & Update Tasks**
@@ -123,13 +124,20 @@ This file tracks the development tasks for the Simflo project. Each task should 
 *   **Status:** `To Do`
 *   **Dependencies:** `TASK-001`
 *   **Description:**
-    *   Implement the backend logic for creating and updating tasks. A new task is created by sending a "command" message via the websocket gateway.
+    *   Implement the backend logic for creating and updating tasks according to the defined hybrid architecture.
 *   **Acceptance Criteria:**
-    *   - [ ] A `TasksService` is created with `create` and `update` methods.
-    *   - [ ] The `MessagesGateway` listens for a `command:create_task` event. This event triggers the creation of a `Task` and a corresponding `Message` of type `task_created`.
-    *   - [ ] The gateway also listens for `command:update_task` to modify an existing task and create a `task_updated` message.
+    *   - [ ] A `TasksService` is created with methods to handle the business logic for creating and updating tasks (e.g., `createTask`, `updateTaskStatus`).
+    *   - [ ] The `MessagesGateway` is updated to handle a `command:create_task` event.
+    *   - [ ] The `create_task` handler will:
+        *   1. Call the `TasksService` to create a new `Task` entity in the database.
+        *   2. Call the `MessagesService` to create a corresponding `Message` with `message_type: 'task_created'`, linked to the new task.
+    *   - [ ] The gateway is updated to handle `command:update_task` events.
+    *   - [ ] The `update_task` handler will:
+        *   1. Call the `TasksService` to update the state of the `Task` entity in the database.
+        *   2. Create a *new* `Message` with a relevant type (e.g., `task_status_updated`) to log the event in the conversation.
 *   **Agent's Role & Guidelines:**
-    *   - The primary interaction should be through the real-time gateway, not standard REST endpoints. This aligns with the Simflo architecture.
+    *   - The primary interaction must be through the real-time gateway, not REST endpoints.
+    *   - Adhere strictly to the pattern in `docs/architecture/application-messaging.md`.
 
 ---
 ### SDK & Common Library
