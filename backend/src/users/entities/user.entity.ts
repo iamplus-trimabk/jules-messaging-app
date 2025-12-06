@@ -1,9 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Task } from '../../tasks/entities/task.entity';
 
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @OneToMany(() => Task, (task) => task.assignee)
+  tasks: Task[];
 
   @Column({ unique: true })
   mobileNumber: string;
