@@ -144,7 +144,7 @@ This file tracks the development tasks for the Simflo project. Each task should 
 ---
 ### **Regenerate and Enhance SDK**
 *   **ID:** `SDK-001`
-*   **Status:** `To Do`
+*   **Status:** `Done`
 *   **Dependencies:** `BE-002, BE-005, BE-006`
 *   **Description:**
     *   Update the auto-generated TypeScript SDK to include the new backend features (message status, user search, file uploads).

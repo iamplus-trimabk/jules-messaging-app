@@ -25,7 +25,9 @@ export class UsersController {
 
   @Get('search')
   @ApiResponse({ status: 200, type: PaginatedUserResultDto })
-  @ApiQuery({ type: UserSearchQueryDto })
+  @ApiQuery({ name: 'q', required: true, description: 'The search query for name or mobile number.' })
+  @ApiQuery({ name: 'page', required: false, description: 'The page number for pagination.', type: Number, schema: { default: 1 } })
+  @ApiQuery({ name: 'limit', required: false, description: 'The number of items per page.', type: Number, schema: { default: 10 } })
   search(
     @Query(new ValidationPipe({ transform: true }))
     queryDto: UserSearchQueryDto,

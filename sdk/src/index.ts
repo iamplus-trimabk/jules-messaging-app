@@ -14,6 +14,7 @@ export { ConversationParticipantDto } from './models/ConversationParticipantDto'
 export { CreateConversationDto } from './models/CreateConversationDto';
 export type { MessageContentDto } from './models/MessageContentDto';
 export { MessageDto } from './models/MessageDto';
+export type { PaginatedUserResultDto } from './models/PaginatedUserResultDto';
 export { ParticipantDto } from './models/ParticipantDto';
 export type { RequestOtpDto } from './models/RequestOtpDto';
 export { TaskDto } from './models/TaskDto';

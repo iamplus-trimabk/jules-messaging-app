@@ -4,4 +4,5 @@
 /* eslint-disable */
 export type MessageContentDto = {
     text: string;
+    description?: string;
 };
