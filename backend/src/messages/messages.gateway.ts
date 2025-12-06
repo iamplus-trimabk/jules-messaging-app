@@ -74,13 +74,13 @@ export class MessagesGateway implements OnGatewayInit, OnGatewayConnection, OnGa
       let responsePayload: any;
 
       switch (message_type) {
-        case 'create-task':
+        case 'create_task':
           // 1. Create the message for the task
           const taskMessageDto: CreateMessageDto = {
             conversationId,
             app_type,
-            message_type,
-            content: { text: payload.title },
+            message_type: 'task_created',
+            content: { text: payload.title, description: payload.description },
           };
           const message = await this.messagesService.create(taskMessageDto, user);
 
@@ -88,20 +88,22 @@ export class MessagesGateway implements OnGatewayInit, OnGatewayConnection, OnGa
           task = await this.tasksService.create({
             messageId: message.id,
             userId: user.userId,
+            title: payload.title,
+            description: payload.description,
           });
 
           responsePayload = { ...message, task };
           break;
 
-        case 'update-task-status':
+        case 'update_task_status':
           task = await this.tasksService.updateStatus(payload.taskId, payload.status);
           messageContentText = `Task status updated to ${payload.status}`;
           break;
-        case 'update-task-due-date':
+        case 'update_task_due_date':
           task = await this.tasksService.updateDueDate(payload.taskId, payload.dueDate);
           messageContentText = `Task due date updated to ${payload.dueDate}`;
           break;
-        case 'assign-task':
+        case 'assign_task':
           task = await this.tasksService.assignTask(payload.taskId, payload.assigneeId);
           messageContentText = `Task assigned to user ${payload.assigneeId}`;
           break;
@@ -110,11 +112,17 @@ export class MessagesGateway implements OnGatewayInit, OnGatewayConnection, OnGa
       }
 
       // For update cases, create a new message logging the change
-      if (message_type !== 'create-task') {
+      if (message_type !== 'create_task') {
+        let loggedMessageType = message_type;
+        if (message_type === 'update_task_status') {
+          loggedMessageType = 'task_status_updated';
+        } else {
+          loggedMessageType = 'task_updated';
+        }
         const updateMessageDto: CreateMessageDto = {
           conversationId,
           app_type,
-          message_type,
+          message_type: loggedMessageType,
           content: { text: messageContentText },
           parentMessageId: task.messageId, // Link to the original task message
         };

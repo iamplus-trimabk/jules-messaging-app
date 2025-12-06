@@ -6,14 +6,23 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToOne,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
+import { Message } from '../../messages/entities/message.entity';
 import { TaskStatus } from '../enums/task-status.enum';
 
 @Entity('tasks')
 export class Task {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @OneToOne(() => Message)
+  @JoinColumn({ name: 'messageId' })
+  message: Message;
+
+  @Column({ nullable: true })
+  messageId: string;
 
   @Column()
   title: string;
@@ -37,6 +46,13 @@ export class Task {
 
   @Column({ nullable: true })
   assigneeId: string;
+
+  @ManyToOne(() => User, { eager: true })
+  @JoinColumn({ name: 'createdById' })
+  createdBy: User;
+
+  @Column({ nullable: true })
+  createdById: string;
 
   @CreateDateColumn()
   createdAt: Date;
