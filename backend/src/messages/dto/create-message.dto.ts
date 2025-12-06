@@ -14,6 +14,11 @@ export class MessageContentDto {
   @IsString()
   @IsNotEmpty()
   text: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  description?: string;
 }
 
 export class CreateMessageDto {

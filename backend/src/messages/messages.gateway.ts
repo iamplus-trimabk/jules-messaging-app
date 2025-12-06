@@ -113,16 +113,10 @@ export class MessagesGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 
       // For update cases, create a new message logging the change
       if (message_type !== 'create_task') {
-        let loggedMessageType = message_type;
-        if (message_type === 'update_task_status') {
-          loggedMessageType = 'task_status_updated';
-        } else {
-          loggedMessageType = 'task_updated';
-        }
         const updateMessageDto: CreateMessageDto = {
           conversationId,
           app_type,
-          message_type: loggedMessageType,
+          message_type: 'task_updated',
           content: { text: messageContentText },
           parentMessageId: task.messageId, // Link to the original task message
         };
