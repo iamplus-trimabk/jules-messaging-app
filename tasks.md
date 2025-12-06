@@ -121,7 +121,7 @@ This file tracks the development tasks for the Simflo project. Each task should 
 ---
 ### **Task Management - Create & Update Tasks**
 *   **ID:** `TASK-002`
-*   **Status:** `To Do`
+*   **Status:** `Done`
 *   **Dependencies:** `TASK-001`
 *   **Description:**
     *   Implement the backend logic for creating and updating tasks according to the defined hybrid architecture.
